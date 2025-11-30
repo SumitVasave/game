@@ -2,7 +2,7 @@
 function love.load()
     x,y=100,150
     r=10
-    kid=love.graphics.newImage('sprites/pvj.png')
+    kid=love.graphics.newImage('sprites/kidbig.png')
     background=love.graphics.newImage('sprites/background.png')
 end
 
