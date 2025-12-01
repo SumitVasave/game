@@ -10,6 +10,7 @@ function love.load()
     background=love.graphics.newImage('sprites/background.png')
     --love.window.setMode(800,600,{resizable=true})
     --love.window.maximize()
+    love.window.updateMode({resizable=true})
     
 end
 
@@ -55,4 +56,10 @@ function love.draw()
         love.graphics.draw(kid,x,y,0,0.3,0.3,kid:getWidth()/2,kid:getHeight()/2)
     cam:detach()
     love.graphics.print(string.format("position:%.1f,%.1f",x,y),10,10)
+end
+
+function love.keypressed(key)
+    if key=='f' then
+        love.window.setFullscreen(true)
+    end
 end
