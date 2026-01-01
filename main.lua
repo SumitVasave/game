@@ -6,8 +6,8 @@ function love.load()
     Player.x=100
     Player.y=150
     Player.speed=100
-    Player.texture=love.graphics.newImage('sprites/Player.png')
-    Player.conltolTexture=love.graphics.newImage('sprites/Control.png')
+    Player.texture=love.graphics.newImage('sprites/player.png')
+    Player.conltolTexture=love.graphics.newImage('sprites/control.png')
     Player.texture:setFilter('nearest','nearest')
     Player.conltolTexture:setFilter('nearest','nearest')
     Player.controls={
@@ -22,7 +22,7 @@ function love.load()
     Cam=Camera()
 
     --window
-    love.window.setMode(800,600,{resizable=true,vsync=true})
+    love.window.setMode(800,600,{resizable=false,vsync=true})
 end
 
 function love.update(dt)
@@ -68,16 +68,16 @@ function love.keypressed(key)
     end
 end
 
-function love.touchpressed(id,x,y,dx,dy,pressure)
-    if x>50 and x<200 and y>400 and y<550  then
-            Player.x=Player.x+50
-    end
-end
+--function love.touchpressed(id,x,y,dx,dy,pressure)
+--    if x>50 and x<200 and y>400 and y<550  then
+--            Player.x=Player.x+50
+--    end
+ -- end
 
--- function love.mousepressed(x,y,button,istouch,presses)
+function love.mousepressed(x,y,button,istouch,presses)
     
---     if x>50 and x<200 and y>400 and y<550 and istouch==false then
---             Player.x=Player.x+50
---     end
+     if x>50 and x<200 and y>400 and y<550 and istouch==true then
+             Player.x=Player.x+50
+     end
     
--- end
+end
