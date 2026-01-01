@@ -1,65 +1,83 @@
 
 function love.load()
-    camera=require 'lib/camera'
-    cam=camera()
-    x,y=100,150
-    kid=love.graphics.newImage('sprites/kidbig.png')
-    icon=love.image.newImageData('sprites/kid.png')
-    love.window.setIcon(icon)
-    love.window.setTitle("Game by sumit.")
-    background=love.graphics.newImage('sprites/background.png')
-    --love.window.setMode(800,600,{resizable=true})
-    --love.window.maximize()
-    love.window.updateMode({resizable=true})
-    
+    --Player
+
+    Player={}
+    Player.x=100
+    Player.y=150
+    Player.speed=100
+    Player.texture=love.graphics.newImage('sprites/Player.png')
+    Player.conltolTexture=love.graphics.newImage('sprites/Control.png')
+    Player.texture:setFilter('nearest','nearest')
+    Player.conltolTexture:setFilter('nearest','nearest')
+    Player.controls={
+        up='w',
+        down='s',
+        left='a',
+        right='d'
+    }
+    Player.touch=love.touch.getTouches()
+    -- Camera
+    Camera=require 'lib/camera'
+    Cam=Camera()
+
+    --window
+    love.window.setMode(800,600,{resizable=true,vsync=true})
 end
 
 function love.update(dt)
+
+    -- movement
     if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
-        x = x + 100 * dt
+        Player.x = Player.x + Player.speed* dt
     end
     if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
-        x = x - 100 * dt
+        Player.x = Player.x - Player.speed* dt
     end
     if love.keyboard.isDown('up') or love.keyboard.isDown('w') then
-        y = y - 100 * dt
+        Player.y = Player.y - Player.speed* dt
     end
     if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
-        y = y + 100 * dt
+        Player.y = Player.y + Player.speed* dt
     end
 
-    cam:lookAt(x,y)
+    -- Cam:lookAt(Player.x,Player.y)
 
-    local w= love.graphics.getWidth()
-    local h= love.graphics.getHeight()
-
-    if x<w/2 then
-        cam:lookAt(w/2,cam.y)
-    end
-    if y<h/2 then
-        cam:lookAt(cam.x,h/2)
-    end
-    --[[ TO be coded LATER for BOUNDARIES
-    if x>w/2 then
-        cam:lookAt(w/2,cam.y)
-    end
-    if y>h/2 then
-        cam:lookAt(cam.x,h/2)
-    end
-    --]]
 end
 
 function love.draw()
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.setBackgroundColor(0, 0.5, 1)
     
-    cam:attach()
-        love.graphics.draw(background,0,0,0,0.7,0.7)
-        love.graphics.draw(kid,x,y,0,0.3,0.3,kid:getWidth()/2,kid:getHeight()/2)
-    cam:detach()
-    love.graphics.print(string.format("position:%.1f,%.1f",x,y),10,10)
+    -- Cam:attach()
+        love.graphics.draw(Player.texture,Player.x,Player.y,0,10,10)
+    -- Cam:detach()
+
+    love.graphics.setColor(1,1,1,0.5)
+    love.graphics.draw(Player.conltolTexture,50,400,0,5,5)
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.print(string.format("position:%.1f,%.1f",Player.x,Player.y),4,4)
 end
 
 function love.keypressed(key)
     if key=='f' then
         love.window.setFullscreen(true)
     end
+    if key=='p' then
+        Player.speed=Player.speed+50
+    end
 end
+
+function love.touchpressed(id,x,y,dx,dy,pressure)
+    if x>50 and x<200 and y>400 and y<550  then
+            Player.x=Player.x+50
+    end
+end
+
+-- function love.mousepressed(x,y,button,istouch,presses)
+    
+--     if x>50 and x<200 and y>400 and y<550 and istouch==false then
+--             Player.x=Player.x+50
+--     end
+    
+-- end
